@@ -43,10 +43,10 @@ flaggedItems = dbContext.Flags
     {
         ItemId = group.Key.Value,
         ItemType = group.FirstOrDefault().Type.ToString(),
-        FlagCounts = group.Count(), // Count flags within the group
+        FlagCounts = group.Count(), 
         ItemDescription = group.FirstOrDefault().Type == FlaggedContentType.Article ? group.FirstOrDefault().Article.Description.Substring(0, 10) :
                           group.FirstOrDefault().Type == FlaggedContentType.Comment ? group.FirstOrDefault().Comment.Message.Substring(0, 10) :
-                          group.FirstOrDefault().Type == FlaggedContentType.Member ? $"{group.FirstOrDefault().ReportedUser.FirstName} {group.FirstOrDefault().ReportedUser.LastName}".Substring(0, 10) : "N/A",
+                          group.FirstOrDefault().Type == FlaggedContentType.Member ? $"{group.FirstOrDefault().ReportedUser.FirstName} {group.FirstOrDefault().ReportedUser.LastName}".Substring(0, 10) : "N/A", //// Please remove the .Substring(0, 10)... Only added to have a broad view of the result set on the console. Thanks
         DateLastFlagged = group.FirstOrDefault().DateCreated
     })
     .OrderByDescending(x => x.DateLastFlagged)
