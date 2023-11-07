@@ -36,18 +36,17 @@ var flaggedItems = new List<FlaggedItemRow>();
 // write code here
 int pageSize = 25; 
 int pageNumber = 1;
-
 flaggedItems = dbContext.Flags
-    .GroupBy(fi => new { fi.ItemId, fi.Type})
+    .GroupBy(fi => new { fi.Type, fi.ItemId, fi.DateCreated })
     .Select(group => new FlaggedItemRow
     {
         ItemId = group.Key.ItemId.Value,
         ItemType = group.Key.Type.ToString(),
-        FlagCounts = group.Count(), 
-        ItemDescription = group.FirstOrDefault().Type == FlaggedContentType.Article ? group.FirstOrDefault().Article.Description.Substring(0, 10) :
-                          group.FirstOrDefault().Type == FlaggedContentType.Comment ? group.FirstOrDefault().Comment.Message.Substring(0, 10) :
-                          group.FirstOrDefault().Type == FlaggedContentType.Member ? $"{group.FirstOrDefault().ReportedUser.FirstName} {group.FirstOrDefault().ReportedUser.LastName}".Substring(0, 10) : "N/A", //// Please remove the .Substring(0, 10)... Only added to have a broad view of the result set on the console. Thanks
-        DateLastFlagged = group.FirstOrDefault().DateCreated
+        FlagCounts = dbContext.Flags.Where(x => x.ItemId == group.Key.ItemId.Value && x.Type == group.Key.Type).Count(),
+        ItemDescription = group.Key.Type == FlaggedContentType.Article ? group.First().Article.Description.Substring(0, 10) :
+                  group.Key.Type == FlaggedContentType.Comment ? group.First().Comment.Message.Substring(0, 10) :
+                  group.Key.Type == FlaggedContentType.Member ? $"{group.First().ReportedUser.FirstName} {group.First().ReportedUser.LastName}".Substring(0, 10) : "N/A",
+        DateLastFlagged = group.Key.DateCreated // Please remove the .Substring(0, 10)... Only added to have a broad view of the result set. Thanks
     })
     .OrderByDescending(x => x.DateLastFlagged)
     .Skip((pageNumber - 1) * pageSize)
