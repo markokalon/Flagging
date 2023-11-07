@@ -38,11 +38,11 @@ int pageSize = 25;
 int pageNumber = 1;
 
 flaggedItems = dbContext.Flags
-    .GroupBy(fi => fi.ItemId)
+    .GroupBy(fi => new { fi.ItemId, fi.Type})
     .Select(group => new FlaggedItemRow
     {
-        ItemId = group.Key.Value,
-        ItemType = group.FirstOrDefault().Type.ToString(),
+        ItemId = group.Key.ItemId.Value,
+        ItemType = group.Key.Type.ToString(),
         FlagCounts = group.Count(), 
         ItemDescription = group.FirstOrDefault().Type == FlaggedContentType.Article ? group.FirstOrDefault().Article.Description.Substring(0, 10) :
                           group.FirstOrDefault().Type == FlaggedContentType.Comment ? group.FirstOrDefault().Comment.Message.Substring(0, 10) :
