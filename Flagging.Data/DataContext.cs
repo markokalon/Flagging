@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.Diagnostics;
 
 namespace Flagging.Data
 {
@@ -12,6 +13,7 @@ namespace Flagging.Data
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlServer("Server=.\\SQLEXPRESS;Database=Flagging;Trusted_Connection=True;TrustServerCertificate=True;");
+            optionsBuilder.LogTo(message => Debug.WriteLine(message));
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
