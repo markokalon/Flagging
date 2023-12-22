@@ -2,7 +2,8 @@
 using Flagging;
 using Flagging.Data;
 
-var dbContext = new DataContext();
+var connectionString = "Server=.\\SQLEXPRESS;Database=Flagging;Trusted_Connection=True;TrustServerCertificate=True;";
+var dbContext = new DataContext(connectionString);
 
 // #
 // the database contains: 
@@ -18,7 +19,7 @@ var dbContext = new DataContext();
 // ###
 // [ ] have most recent flags at the top
 // [ ] filter by keyword (match on user name, article description and comment message)
-// [ ] BONUS: implement paging
+// [ ] implement paging
 //
 // ####
 // Example: 
@@ -29,11 +30,20 @@ var dbContext = new DataContext();
 //    new FlaggedItemRow { ItemId = 1, ItemType = "Comment", ItemDescription = "WOW", FlagCounts = 1, DateLastFlagged = new DateTime(2023, 11, 7) }
 //}.OrderByDescending(x => x.DateLastFlagged);
 
-var flaggedItems = new List<FlaggedItemRow>();
+
 
 // write code here
 
-WriteTable(flaggedItems);
+var query = dbContext.Flags;
+var flaggedItems = query
+    .Select(x => new FlaggedItemRow
+    {
+
+    });
+
+
+
+WriteTable(flaggedItems.ToList());
 
 Console.ReadKey();
 
