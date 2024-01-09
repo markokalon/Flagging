@@ -2,8 +2,7 @@
 using Flagging;
 using Flagging.Data;
 
-var connectionString = "Server=.\\SQLEXPRESS;Database=Flagging;Trusted_Connection=True;TrustServerCertificate=True;";
-var dbContext = new DataContext(connectionString);
+var dbContext = new DataContext();
 
 // #
 // the database contains: 

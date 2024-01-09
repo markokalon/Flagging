@@ -4,15 +4,15 @@ namespace Flagging.Data
 {
     public class DataContext : DbContext
     {
-        public DataContext(string connectionString) : base(SqlServerDbContextOptionsExtensions.UseSqlServer(new DbContextOptionsBuilder(), connectionString).Options)
-        {
-
-        }
-
         public DbSet<User> Users { get; set; }
         public DbSet<Comment> Comments { get; set; }
         public DbSet<Article> Articles { get; set; }
         public DbSet<Flag> Flags { get; set; }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.UseSqlServer("Server=.\\SQLEXPRESS;Database=Flagging;Trusted_Connection=True;TrustServerCertificate=True;");
+        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -98,7 +98,7 @@ namespace Flagging.Data
 
             for (var i = 1; i <= 25; i++)
             {
-                for (var z = 0; z<Faker.RandomNumber.Next(5); z++)
+                for (var z = 0; z < Faker.RandomNumber.Next(5); z++)
                 {
                     yield return new Flag
                     {
