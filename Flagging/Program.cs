@@ -3,6 +3,8 @@ using Flagging;
 using Flagging.Data;
 
 var dbContext = new DataContext();
+dbContext.Seed();
+dbContext.SaveChanges();
 
 // #
 // the database contains: 

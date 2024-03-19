@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.Reflection.Emit;
 
 namespace Flagging.Data
 {
@@ -11,18 +12,12 @@ namespace Flagging.Data
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer("Server=.\\SQLEXPRESS;Database=Flagging;Trusted_Connection=True;TrustServerCertificate=True;");
+            optionsBuilder.UseInMemoryDatabase(databaseName: "Flagging");
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-
-
-            modelBuilder.Entity<User>().HasData(UsersSeed());
-            modelBuilder.Entity<Article>().HasData(ArticleSeed());
-            modelBuilder.Entity<Comment>().HasData(CommentSeed());
-            modelBuilder.Entity<Flag>().HasData(FlagSeed());
         }
 
         private IEnumerable<Comment> CommentSeed()
@@ -108,6 +103,29 @@ namespace Flagging.Data
                         DateCreated = Faker.Identification.DateOfBirth(),
                     };
                 }
+            }
+        }
+
+        public void Seed()
+        {
+            foreach (var user in UsersSeed())
+            {
+                Users.Add(user);
+            }
+
+            foreach (var article in ArticleSeed())
+            {
+                Articles.Add(article);
+            }   
+
+            foreach (var comment in CommentSeed())
+            {
+                Comments.Add(comment);
+            }
+
+            foreach (var flag in FlagSeed())
+            {
+                Flags.Add(flag);
             }
         }
     }
