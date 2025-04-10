@@ -13,7 +13,5 @@ namespace Flagging.Data
         [MaxLength]
         public string Message { get; set; }
         public virtual ICollection<Flag> ReportFlags { get; set; }
-
-        public virtual User User { get; set; }
     }
 }

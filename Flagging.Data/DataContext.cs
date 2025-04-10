@@ -28,7 +28,7 @@ namespace Flagging.Data
                 {
                     Id = i,
                     UserId = i,
-                    Message = Faker.Lorem.Sentence(5)
+                    Message = new string(Faker.Lorem.Sentence(2).Take(20).ToArray())
                 };
             }
         }
@@ -41,7 +41,7 @@ namespace Flagging.Data
                 {
                     Id = i,
                     UserId = i,
-                    Description = Faker.Lorem.Paragraph(5)
+                    Description = new string(Faker.Lorem.Sentence(5).Take(50).ToArray())
                 };
             }
         }

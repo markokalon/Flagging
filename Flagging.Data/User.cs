@@ -13,7 +13,5 @@ namespace Flagging.Data
         public string LastName { get; set; }
 
         public virtual ICollection<Flag> ReportFlags { get; set; }
-        public virtual ICollection<Comment> Comments { get; set; }
-        public virtual ICollection<Article> Articles { get; set; }
     }
 }
